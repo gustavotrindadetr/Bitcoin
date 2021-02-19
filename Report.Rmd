@@ -1,0 +1,47 @@
+---
+title: "Bitcoin Cotation Chart"
+author: "Gustavo Giugliani Trindade"
+date: "19/02/2021"
+output: 
+  html_document: 
+    theme: cerulean
+---
+
+```{r LIBRARIES, message=FALSE, warning=FALSE, include=FALSE}
+
+library(tidyverse)
+library(quantmod)
+library(dplyr)
+library(ggplot2)
+
+```
+
+```{r CARREGA COTAÇÕES E GRAVA CSV, message=FALSE, warning=FALSE, include=FALSE}
+
+atv <- getSymbols("BTC-USD", src = "yahoo")
+atv <- na.omit(atv)
+tab_btc <- as.data.frame(`BTC-USD`) %>%
+  rownames_to_column() %>%
+  rowid_to_column() %>%
+  transmute(data_ordem = rowid,
+            data = rowname,
+            btc_opening = `BTC-USD.Open`,
+            btc_high = `BTC-USD.High`,
+            btc_low = `BTC-USD.Low`,
+            btc_close = `BTC-USD.Close`,
+            btc_volume = `BTC-USD.Volume`
+  )
+
+write.csv(tab_btc, "~/GitHub/Bitcoin/ds_bitcoin.csv", row.names = F)
+
+```
+
+```{r RELATÓRIO, echo=FALSE}
+
+ggplot(tab_btc, aes(x = data_ordem, y = btc_close)) +
+  geom_line(color = "orange" ) +
+  ggtitle("Bitcoin Cotation Chart") +
+  xlab("Período") + ylab("Preço em US$") 
+
+```
+
