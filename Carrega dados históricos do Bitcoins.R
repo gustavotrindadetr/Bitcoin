@@ -19,4 +19,4 @@ tab_btc <- as.data.frame(`BTC-USD`) %>%
             btc_volume = format(round(as.numeric(`BTC-USD.Volume`),2),decimal.mark = ",")
   )
 
-write.csv(tab_btc, "D:\\Users\\z141983\\Documents\\GitHub\\Bitcoin\\ds_bitcoin.csv", row.names = F)
+write.csv(tab_btc, "~/GitHub/Bitcoin/ds_bitcoin.csv", row.names = F)
